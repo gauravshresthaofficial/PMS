@@ -198,6 +198,7 @@ $(document).ready(function () {
       },
       success: function (data) {
         $("#suppliers-list").html(data);
+        
       },
     });
   }

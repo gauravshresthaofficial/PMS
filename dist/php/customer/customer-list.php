@@ -4,10 +4,10 @@ $output = '<table class="w-full px-2 m-auto mt-4">
 <thead class="border border-r-0 border-l-0 border-gray-600">
     <tr class="grid grid-cols-12">
         <th class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-1">S.N.</th>
-        <th class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-2">Customer Name</th>
-        <th class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-3">Customer Email</th>
-        <th class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-2">Customer Address</th>
-        <th class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-2">Customer Number</th>
+        <th class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-2">Name</th>
+        <th class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-3">Email</th>
+        <th class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-2">Address</th>
+        <th class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-2">Number</th>
         <th class="py-2 pb-1 text-center px-2 text-gray-800 font-semibold text-md col-span-2">Actions</th>
     </tr>
 </thead>
@@ -62,16 +62,19 @@ if ($result->num_rows > 0) {
 </table>';
 
     // Display pagination buttons
-    $output .= '<div class="absolute bottom-2 right-0">';
-    $output .= '<ul class="flex justify-center">';
-    for ($j = 1; $j <= $total_pages; $j++) {
-        if ($j == $page) {
-            $output .= '<li class="mx-2"><button class="pagination px-2 py-1 bg-[#2DD4BF] text-white rounded-md" data-page="' . $j . '" >' . $j . '</button></li>';
-        } else {
-            $output .= '<li class="mx-2"><button class="pagination px-2 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-400 transition duration-300" data-page="' . $j . '" >' . $j . '</button></li>';
+    if ($total_pages > 1) {
+
+        $output .= '<div class="absolute bottom-2 right-0">';
+        $output .= '<ul class="flex justify-center">';
+        for ($j = 1; $j <= $total_pages; $j++) {
+            if ($j == $page) {
+                $output .= '<li class="mx-2"><button class="pagination px-2 py-1 bg-[#2DD4BF] text-white rounded-md" data-page="' . $j . '" >' . $j . '</button></li>';
+            } else {
+                $output .= '<li class="mx-2"><button class="pagination px-2 py-1 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-400 transition duration-300" data-page="' . $j . '" >' . $j . '</button></li>';
+            }
         }
+        $output .= '</ul>';
+        $output .= '</div>';
     }
-    $output .= '</ul>';
-    $output .= '</div>';
 }
 echo $output;

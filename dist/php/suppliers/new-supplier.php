@@ -62,7 +62,10 @@ if ($edit == "edit") {
             <input type="text" name="s_name" id="s_name" class="w-[300px] rounded-md py-1 ps-2 border " <?php
                                                                                                         if ($edit == "edit") {
                                                                                                             echo 'value = "' . $default['s_name'] . '"';
-                                                                                                        } else {
+                                                                                                        } else if(isset($_POST['s_name'])){
+                                                                                                            echo 'value = "' . $_POST['s_name'] . '"';
+                                                                                                        }
+                                                                                                         else {
                                                                                                             echo  'placeholder="Suppliers Name"';
                                                                                                         }
                                                                                                         ?>>

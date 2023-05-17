@@ -10,12 +10,16 @@ function head($title)
             <p class="text-[#F1F5F9] font-bold">Pharmacy Management System</p>
         </div>
         <div class="col-span-2 flex flex-col  items-end justify-center">
-            <p id="current-time" class="text-[#F1F5F9] font-bold text-lg">' . date('h:i a') . '</p>
-            <p class="text-[#F1F5F9] font-semibold text-xs">' . date('F j, Y') . '</p>
+        <div id="current-time" class="text-[#F1F5F9] font-bold text-xl flex items-baseline gap-1">
+                <p id="time" class="inline-block"></p>
+                <p id="seconds" class="inline-block text-xs font-thin w-3"></p>
+                <p id="am-pm" class="inline-block text-[#F1F5F9] font-bold text-lg"></p>
+            </div>
+        <p class="text-[#F1F5F9] font-semibold text-xs">' . date('F j, Y') . '</p>
         </div>
         </div>
     </div>';
 }
+?>
 
-
-        // <!-- body -->
+  

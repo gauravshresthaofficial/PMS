@@ -73,11 +73,18 @@ if ($edit == "edit") {
 
 <div class="">
     <!-- Add or edit heading -->
-    <button id="close-modal" class="bg-pink-500 hover:bg-pink-700 text-white font-bold w-10 h-10 rounded-full float-right">X</button>
+    <!-- <button id="close-modal" class="bg-pink-500 hover:bg-pink-700 text-white font-bold w-10 h-10 rounded-full float-right">X</button> -->
     <div class="text-lg ps-2 p-4 font-bold border border-t-0 border-l-0 border-r-0 pb-2 border-gray-200">
         <?php
         echo $operation;
-        ?> Medicine Details</div>
+        ?> Medicine 
+        <?php
+            if (isset($_POST['data_for']) && $_POST['data_for'] == "med_stock")
+            {
+                echo " Stock ";
+            }
+        ?>
+        Details</div>
 
     <!-- Form -->
     <div class="w-fit pt-4 flex flex-col gap-4">
@@ -143,11 +150,12 @@ if ($edit == "edit") {
                                                                                                         }
                                                                                                         ?>>
             <div id="s-name-results" class="relative z-50"></div>
-            <button type="submit" id="add-supplier" data-details="0" class="hidden absolute translate-x-[120%] top-0 right-4 bg-pms-green-light text-white py-1 px-6 rounded-md border border-pms-green hover:scale-105 delay-75">Add Supplier</button>
+            <button type="submit" id="add-supplier" data-details="0" class="hidden absolute translate-x-[120%] top-0 right-4 bg-teal-500 text-white py-1 px-6 rounded-md border border-pms-green hover:scale-105 delay-75">Add Supplier</button>
         </div>
 
         <?php
         if (isset($_POST['addition']) && $_POST['addition'] == "supplier-details") {
+
             echo '
             <div class="">
             <div class=" w-[200px] inline-block text-pms-dark font-semibold ps-2">Suppliers Email:</div>
@@ -171,7 +179,7 @@ if ($edit == "edit") {
             </div>';
             echo '<div class="">';
             echo '<div class=" w-[200px] inline-block text-pms-dark font-semibold ps-2">Expiry Date:</div>
-            <input type="date" name="exp_date" id="exp_date" class="w-[300px] rounded-md py-1 ps-2 border" value = "' . $default['exp_date'] . '"' . '>
+            <input type="date" name="exp_date" id="exp_date" class="w-[300px] rounded-md py-1 px-2 border" value = "' . $default['exp_date'] . '"' . '>
             </div>';
             echo '<div class="">
             <div class=" w-[200px] inline-block text-pms-dark font-semibold ps-2">Qty:
@@ -205,7 +213,7 @@ if ($edit == "edit") {
                                         echo 'id="add-btn"';
                                     }
 
-                                    ?> class="toggle-btn bg-pms-green-light text-white py-1 px-6 rounded-md border border-pms-green hover:scale-105 delay-75">
+                                    ?> class="toggle-btn bg-teal-500 text-white py-1 px-6 rounded-md border border-pms-green hover:scale-105 delay-75">
                 <?php
                 if ($edit == "edit") {
                     echo "Update";

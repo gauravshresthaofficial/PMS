@@ -7,7 +7,7 @@ $output = '<table class="w-full px-2 m-auto mt-4">
 <tr class="grid grid-cols-12">
     <tr class="grid grid-cols-12 py-2">
         <td class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-1">S.N.</td>
-        <td class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-2">Supplier Name</td>
+        <td class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-2">Name</td>
         <td class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-3">Email</td>
         <td class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-2">Address</td>
         <td class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-2">Number</td>

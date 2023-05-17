@@ -6,10 +6,10 @@ $output = '<table class="w-full px-2 m-auto mt-4">
 <thead class="border border-r-0 border-l-0 border-gray-600">
 <tr class="grid grid-cols-12">
     <th class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-1">S.N.</th>
-    <th class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-2">Customer Name</th>
-    <th class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-3">Customer Email</th>
-    <th class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-2">Customer Address</th>
-    <th class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-2">Customer Number</th>
+    <th class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-2">Name</th>
+    <th class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-3">Email</th>
+    <th class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-2">Address</th>
+    <th class="py-2 pb-1 text-start px-2 text-gray-800 font-semibold text-md col-span-2">Number</th>
     <th class="py-2 pb-1 text-center px-2 text-gray-800 font-semibold text-md col-span-2">Actions</th>
 </tr>
 </thead>

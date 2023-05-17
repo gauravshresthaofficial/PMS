@@ -13,8 +13,8 @@ $(document).ready(function () {
       $(".toggle-id").attr("id", "new-btn");
       $(".toggle-id").text("New Customer");
     }
-    $("#print").fadeIn();
-    $("#search-bar").fadeIn();
+    $("#print").show();
+    $("#search-bar").show();
     $(".search").val("");
 
     $.ajax({

@@ -23,4 +23,5 @@ $(document).ready(function () {
   //     var url = 'edit-admin.php?action=edit';
   //     window.location.href = url;
   // });
+  
 });

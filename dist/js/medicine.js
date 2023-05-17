@@ -3,20 +3,25 @@ $(document).ready(function () {
     // Display the "New Medicine" form here
     localStorage.removeItem("createNewMedicine"); // Clear the flag once it's been used
     newMedicine();
-    return;
   } else {
     load_list();
   }
-
+  $("#error-message").hide();
+  $("#success-message").hide();
   function load_list() {
-    if ($(".med_stock").attr("id") != "med_stock") {
-      $(".med_stock").attr("id", "med_stock");
-      $(".med_stock").text("Medicine Stock");
-    }
-    $(".modal").hide();
+    $("#button").html("");
+    $("#new-btn").show();
+    $("#med_list").hide();
+    $("#med_stock").show();
     $("#search-bar").show();
     $("#search").val("");
+    $(".modal").hide();
     $("#search-bar").attr("data-for", "med");
+
+    // Change the href value
+    var newHref = "pdf/medicine-pdf.php";
+    $("#print").attr("href", newHref);
+    $("#print").show();
 
     $.ajax({
       url: "php/medicine/function.php",
@@ -30,30 +35,62 @@ $(document).ready(function () {
     });
   }
 
-  function load_stock() {
-    $(".med_stock").attr("id", "go-back");
-    $(".med_stock").text("Go Back");
+  function load_stock(dataForValue = "stock") {
+    // $(".med_stock").attr("id", "go-back");
+    // $(".med_stock").text("Medicine List");
 
+    $("#new-btn").hide();
+    $("#med_list").show();
+    if(dataForValue != "stock"){
+      $("#med_stock").show();
+    }else{
+      $("#med_stock").hide();
+    } 
     $("#search-bar").show();
     $("#search").val("");
-
+    $(".modal").hide();
     $("#search-bar").attr("data-for", "med_stock");
+
+    var outOfStockBtn =
+      '<button type="button" data-for = "outofstock" id="out_of_stock" class="stock out_of_stock border border-red-500 py-1 px-3 bg-red-500 text-white rounded-md hover:bg-red-600">Out of Stock</button>';
+
+    var expiredMedBtn =
+      '<button type="button" data-for = "expiredmed" id="expired_med" class="stock expired_med border border-yellow-500 py-1 px-3 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">Expired Medicine</button>';
+
+    // Change the href value
+    var newHref = "pdf/medicine-stock-pdf.php";
+    $("#print").attr("href", newHref);
+    $("#print").show();
 
     $.ajax({
       url: "php/medicine/function.php",
       type: "POST",
       data: {
         action: "stock",
+        dataForValue: dataForValue,
       },
       success: function (data) {
         $("#table-list").html(data);
+        // Append the buttons as siblings of the search bar
+        $("#button").html(outOfStockBtn + " " + expiredMedBtn);
       },
     });
   }
 
   //display table of medicine stock
   $(document).on("click", ".med_stock", function () {
-    load_stock();
+    var dataForValue = $(this).data("for");
+    load_stock(dataForValue);
+  });
+  //display table of medicine stock
+  $(document).on("click", ".stock", function () {
+    var dataForValue = $(this).data("for");
+    load_stock(dataForValue);
+  });
+  //display table of medicine stock
+  $(document).on("click", "#expired_med", function () {
+    var dataForValue = $(this).data("for");
+    load_stock(dataForValue);
   });
 
   $(document).on("click", ".pagination", function () {
@@ -80,29 +117,30 @@ $(document).ready(function () {
   $(document).on("click", "#go-back", function () {
     load_list();
   });
+  $(document).on("click", "#med_list", function () {
+    load_list();
+  });
 
   //Delete the medicine
   $(document).on("click", ".delete-btn", function () {
     if (confirm("Do you really want to delete this record ?")) {
       var id = $(this).data("id");
+      var actionFor = $(this).data("for");
       var element = this;
-      var message =
-        '<div id="error-message" class="absolute rounded-md right-1/2 top-3/4 opacity-60 bg-pms-error text-white translate-y-1/2 translate-x-1/2 px-6 w-2/3 text-center py-2">Record Deleted</div>';
       $.ajax({
         url: "php/medicine/function.php",
         type: "POST",
         data: {
           action: "delete",
+          actionFor: actionFor,
           id: id,
         },
         success: function (data) {
           if (data == 1) {
             $(element).closest("tr").fadeOut();
-            $("#notice").append(message);
-            $("#notice").fadeIn("fast").delay(4000).fadeOut();
+            showSuccess("Record deleted Sucessfully.");
           } else {
-            $("#error-message").html("Can't Delete Record.").slideDown();
-            // $("#success-message").slideUp();
+            showError("Can't Delete Record.");
           }
         },
       });
@@ -114,7 +152,6 @@ $(document).ready(function () {
     var id = $(this).data("id");
     var element = $(this);
     var data_for = element.attr("data-for");
-
     function isEmpty(variable) {
       return $.trim(variable) == "";
     }
@@ -129,9 +166,14 @@ $(document).ready(function () {
       },
       success: function (data) {
         if (!isEmpty(data)) {
-          $("#modalcontent").html(data);
-          $(".modal").show();
+          $("#new-btn").hide();
+          $("#med_stock").show();
+          $("#med_list").show();
+          $("#search-bar").hide();
+          $("#table-list").html(data);
+          $("#print").hide();
           if (data_for == "med_stock") {
+            $("#search-bar").hide();
             disable("#med_name");
             disable("#med_pack");
             disable("#generic_name");
@@ -139,10 +181,7 @@ $(document).ready(function () {
           }
         } else {
           load_list();
-          var message =
-            '<div id="error-message" class="absolute rounded-md right-1/2 top-3/4 opacity-60 bg-pms-error text-white translate-y-1/2 translate-x-1/2 px-6 w-2/3 text-center py-2">Operation Failed</div>';
-          $("#notice").append(message);
-          $("#notice").fadeIn("fast").delay(4000).fadeOut();
+          showError("Operation Failed.");
         }
       },
     });
@@ -203,14 +242,15 @@ $(document).ready(function () {
       },
       success: function (data) {
         if (!isEmpty(data)) {
-          $("#modalcontent").html(data);
-          $(".modal").show();
+          $("#new-btn").hide();
+          $("#med_list").show();
+          $("#med_stock").show();
+          $("#search-bar").hide();
+          $("#print").hide();
+          $("#table-list").html(data);
         } else {
           load_list();
-          var message =
-            '<div id="error-message" class="absolute rounded-md right-1/2 top-3/4 opacity-60 bg-pms-error text-white translate-y-1/2 translate-x-1/2 px-6 w-2/3 text-center py-2">Operation Failed</div>';
-          $("#notice").append(message);
-          $("#notice").fadeIn("fast").delay(4000).fadeOut();
+          showError("Operation Failed.");
         }
       },
     });
@@ -225,22 +265,21 @@ $(document).ready(function () {
     var med_name = $("#med_name").val();
     var med_pack = $("#med_pack").val();
     var generic_name = $("#generic_name").val();
-    var new_supplier = $("#add-supplier").data("details");
+    // var new_supplier = $("#add-supplier").data("details");
     var s_name = $("#s_name").val();
-    if (new_supplier == 1) {
-      var s_email = $("#s_email").val();
-      var s_number = $("#s_number").val();
-      var s_address = $("#s_address").val();
-    } else {
-      var s_id = $("#s_id").val();
-    }
+    var s_id = $("#s_id").val();
+
+    // if (med_name === "" || med_pack === "" || generic_name === "" || s_name === "" || s_id === "") {
+    //   showError("All fields are required.");
+    //   return;
+    // }
 
     var dataObj = {
       action: action,
       med_name: med_name,
       med_pack: med_pack,
       generic_name: generic_name,
-      new_supplier: new_supplier,
+      // new_supplier: new_supplier,
     };
     // alert(action);
     if (action == "update") {
@@ -252,69 +291,86 @@ $(document).ready(function () {
       } else {
         dataObj.stock_id = $("#stock_id").val();
         dataObj.exp_date = $("#exp_date").val();
-        dataObj.mrp = $("#mrp").val();
-        dataObj.qty = $("#qty").val();
-        dataObj.rate = $("#rate").val();
+        dataObj.mrp = parseFloat($("#mrp").val());
+        dataObj.qty = parseFloat($("#qty").val());
+        dataObj.rate = parseFloat($("#rate").val());
+
+        if (dataObj.mrp < dataObj.rate) {
+          showError("MRP should be greater than Rate.");
+          return;
+        }
+        if (dataObj.qty < 0) {
+          showError("Quantity can't be less than 0.");
+          return;
+        }
       }
     }
-    if (new_supplier == 1) {
-      dataObj.s_email = s_email;
-      dataObj.s_number = s_number;
-      dataObj.s_address = s_address;
-      dataObj.s_name = s_name;
-    } else {
-      dataObj.s_name = s_name;
-      dataObj.s_id = s_id;
-    }
 
-    var message =
-      '<div id="error-message" class="absolute rounded-md right-1/2 top-3/4 opacity-60 bg-pms-error text-white translate-y-1/2 translate-x-1/2 px-6 w-2/3 text-center py-2">Record Added.</div>';
+    dataObj.s_name = s_name;
+    dataObj.s_id = s_id;
     $.ajax({
       url: "php/medicine/function.php",
       type: "POST",
       data: dataObj,
       success: function (data) {
-        // alert(data);
-        if (data == 1) {
-          if (data_for == "med") load_list();
-          else {
-            $(".modal").hide();
-            $("#search-bar").show();
-            $("#search").val("");
-            load_stock();
-          }
-          $("#notice").append(message);
-          if (action == "update") {
-            $("#error-message").html("Record Updated").slideDown();
-          }
-          $("#notice").fadeIn("fast").delay(4000).fadeOut();
-        } else if (data == 2) {
-          load_list();
-          $("#notice").append(message);
-          $("#error-message").html("Medicine already exists.").slideDown();
-          $("#notice").fadeIn("fast").delay(4000).fadeOut();
-        } else if (data == 3) {
-          load_list();
-          $("#notice").append(message);
-          $("#error-message").html("Supplier already exists.").slideDown();
-          $("#notice").fadeIn("fast").delay(4000).fadeOut();
-        } else if (data == 5) {
-          load_list();
-          $("#notice").append(message);
-          $("#error-message").html("Supplier already exists.").slideDown();
-          $("#notice").fadeIn("fast").delay(4000).fadeOut();
+        if (action == "add") {
+          handleMedData(data);
         } else {
-          load_list();
-          $("#notice").append(message);
-          $("#error-message").html("Can't Add Record.").slideDown();
-          $("#notice").fadeIn("fast").delay(4000).fadeOut();
+          if (data_for == "med") {
+            handleMedData(data);
+          } else {
+            handleMedStockData(data);
+          }
         }
       },
     });
   });
 
+  function handleMedData(data) {
+    if (data == 1) {
+      load_list();
+      showSuccess("Record updated.");
+    } else if (data == 2) {
+      load_list();
+      showError("Medicine already exists.");
+    } else if (data == 3) {
+      load_list();
+      showError("Suppliers already exist.");
+    } else if (data == 5) {
+      load_list();
+      showSuccess("No changes were made.");
+    } else {
+      load_list();
+      showError("Can't add record.");
+    }
+  }
+
+  function handleMedStockData(data) {
+    if (data == 1) {
+      // $(".modal").hide();
+      // $("#search-bar").show();
+      // $("#search").val("");
+      load_stock();
+      showSuccess("Record updated.");
+    } else if (data == 5) {
+      load_stock();
+      showSuccess("No changes were made.");
+    } else if (data == 8) {
+      load_stock();
+      showError("Mrp must be greater than Rate.");
+    } else {
+      load_stock();
+      showError("Can't Update record.");
+    }
+  }
+
   // Show option for supplier name
   $(document).on("keyup click", "#s_name", function () {
+    if ($(".modal").is(":visible")) {
+      // Check if a modal is visible
+      return; // Skip the code if a modal is shown
+    }
+
     var searchValue = $(this).val();
     $.ajax({
       url: "php/medicine/function.php",
@@ -377,7 +433,7 @@ $(document).ready(function () {
     // alert(action);
 
     $.ajax({
-      url: "php/medicine/addnew.php",
+      url: "php/suppliers/new-supplier.php",
       type: "POST",
       data: {
         action: action,
@@ -388,6 +444,7 @@ $(document).ready(function () {
         generic_name: generic_name,
         s_name: s_name,
         data_for: "med",
+        act: "Add",
       },
       success: function (data) {
         if (!isEmpty(data)) {
@@ -395,15 +452,88 @@ $(document).ready(function () {
           $("#modalcontent").html(data);
           $(".modal").show();
           $("#add-supplier").attr("data-details", "1");
+          $("#add-btn").attr("id", "add-btn-supplier");
         } else {
           load_list();
-          var message =
-            '<div id="error-message" class="absolute rounded-md right-1/2 top-3/4 opacity-60 bg-pms-error text-white translate-y-1/2 translate-x-1/2 px-6 w-2/3 text-center py-2">Operation Failed</div>';
-          $("#notice").append(message);
-          $("#notice").fadeIn("fast").delay(4000).fadeOut();
+          showError("Operation Failed.");
         }
       },
     });
+  });
+
+  //Add data to database and go back to table
+  $(document).on("click", "#add-btn-supplier", function () {
+    var s_name = $("#s_name").val();
+    var s_email = $("#s_email").val();
+    var s_address = $("#s_address").val();
+    var s_number = $("#s_number").val();
+
+    // Regular expression for validating phone number format
+    var phoneNumberRegex = /^(\+977-)?(\d{1,3}-)?\d{7,}$/;
+
+    // Regular expression for validating email format
+    var emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+
+    // Perform validation checks
+    if (
+      s_name.trim() === "" ||
+      s_email.trim() === "" ||
+      s_address.trim() === "" ||
+      s_number.trim() === ""
+    ) {
+      showError("All fields are required.");
+    } else if (!phoneNumberRegex.test(s_number)) {
+      showError("Enter a valid phone number.");
+    } else if (!emailRegex.test(s_email)) {
+      showError("Enter a valid email address.");
+    } else {
+      $.ajax({
+        url: "php/suppliers/add-supplier.php",
+        type: "POST",
+        data: {
+          s_name: s_name,
+          s_email: s_email,
+          s_address: s_address,
+          s_number: s_number,
+        },
+        success: function (data) {
+          switch (data) {
+            case "1":
+              $(".modal").hide();
+              $("#add-btn-supplier").attr("id", "add-btn");
+              showSuccess("Record Added Successfully.");
+              break;
+            case "2":
+              $(".modal").hide();
+              $("#add-btn-supplier").attr("id", "add-btn");
+              showError("Name already exists.");
+              break;
+            case "3":
+              $(".modal").hide();
+              $("#add-btn-supplier").attr("id", "add-btn");
+              showError("All fields are required.");
+              break;
+            case "4":
+              $(".modal").hide();
+              $("#add-btn-supplier").attr("id", "add-btn");
+              showError("Enter a valid phone number.");
+              break;
+            case "7":
+              $(".modal").hide();
+              $("#add-btn-supplier").attr("id", "add-btn");
+              showError("Email already exists.");
+              break;
+            default:
+              $(".modal").hide();
+              $("#add-btn-supplier").attr("id", "add-btn");
+              showError("Can't add record.");
+              break;
+
+              $("#add-btn-supplier").attr("id", "add-btn");
+          }
+        },
+      });
+    }
   });
 
   //live search
@@ -436,12 +566,14 @@ $(document).ready(function () {
   $(document).on("click", "#close-modal", function () {
     // Hide the modal
     $(".modal").hide();
+    $("#add-btn-supplier").attr("id", "add-btn");
   });
 
   // When the modal overlay is clicked
   $(document).on("click", ".modal-overlay", function () {
     // Hide the modal
     $(".modal").hide();
+    $("#add-btn-supplier").attr("id", "add-btn");
   });
 
   // When the escape key is pressed
@@ -449,10 +581,59 @@ $(document).ready(function () {
     if (e.keyCode === 27) {
       // Hide the modal
       $(".modal").hide();
+      $("#add-btn-supplier").attr("id", "add-btn");
     }
   });
 
   function disable(input) {
     $(input).prop("disabled", true);
   }
+
+  var errorContainer = $("#error-message");
+  var successContainer = $("#success-message");
+  var successTimeout;
+  var errorTimeout;
+
+  // Function to show a message in the specified container
+  function showMessage(container, message) {
+    // Hide any existing message before showing the new one
+    errorContainer.add(successContainer).hide().empty();
+
+    // Set the message and show it
+    container.html(message).slideDown();
+  }
+
+  // Function to show an error message
+  function showError(message) {
+    clearTimeout(errorTimeout); // Clear any existing timeout
+
+    // Show the error message
+    showMessage(errorContainer, message);
+
+    // Set a timeout to hide the error message after 4 seconds
+    errorTimeout = setTimeout(function () {
+      errorContainer.slideUp(function () {
+        // Delete the HTML content
+        errorContainer.empty();
+      });
+    }, 4000);
+  }
+
+  // Function to show a success message
+  function showSuccess(message) {
+    clearTimeout(successTimeout); // Clear any existing timeout
+
+    // Show the success message
+    showMessage(successContainer, message);
+
+    // Set a timeout to hide the success message after 4 seconds
+    successTimeout = setTimeout(function () {
+      successContainer.slideUp(function () {
+        // Delete the HTML content
+        successContainer.empty();
+      });
+    }, 4000);
+  }
+
+  
 });
