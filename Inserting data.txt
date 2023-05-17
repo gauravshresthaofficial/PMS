@@ -1,0 +1,83 @@
+INSERT INTO admin (username, password) VALUES
+('admin1', 'password1'),
+('admin2', 'password2'),
+('admin3', 'password3');
+
+INSERT INTO customer (c_name, c_address, c_number) VALUES
+('Suman Sharma', 'Kathmandu', '+977-9841000001'),
+('Bikash Rai', 'Pokhara', '+977-9841000002'),
+('Kamal Shah', 'Biratnagar', '+977-9841000003'),
+('Anita Karki', 'Butwal', '+977-9841000004');
+
+INSERT INTO suppliers (s_name, s_email, s_number, s_address) VALUES
+('ABC Pharmaceuticals', 'abcpharma@gmail.com', '+977-1-4444444', 'Kathmandu'),
+('Nepal Pharmaceuticals', 'nepalpharma@gmail.com', '+977-1-5555555', 'Lalitpur'),
+('Everest Pharmaceuticals', 'everestpharma@gmail.com', '+977-1-6666666', 'Bhaktapur');
+
+INSERT INTO invoice (c_id, total, discount) VALUES
+(1, 5000.00, 100.00),
+(2, 3500.00, 50.00),
+(3, 7500.00, 150.00),
+(4, 10000.00, 200.00);
+
+INSERT INTO medicine (med_name, med_pack, generic_name, s_id) VALUES
+('Paracetamol', '10 x 1', 'Acetaminophen', 1),
+('Aspirin', '10 x 1', 'Acetylsalicylic acid', 2),
+('Amoxicillin', '10 x 1', 'Amoxicillin', 3),
+('Ibuprofen', '10 x 1', 'Ibuprofen', 1);
+
+INSERT INTO medicine_stock (med_name, exp_date, qty, mrp, rate) VALUES
+('Paracetamol', '2023-06-30', 100, 10.00, 8.50),
+('Aspirin', '2023-09-30', 50, 15.00, 12.50),
+('Amoxicillin', '2023-12-31', 75, 20.00, 17.50),
+('Ibuprofen', '2024-03-31', 200, 25.00, 20.00);
+
+INSERT INTO purchases (s_id, total) VALUES
+(1, 5000.00),
+(2, 3500.00),
+(3, 7500.00),
+(1, 10000.00);
+
+
+
+
+
+----------------------------------------------------------
+---------------------------------------------------------
+INSERT INTO customer (c_name, c_address, c_number) VALUES
+('Rita Tamang', 'Chitwan', '+977-9841000005'),
+('Ramesh Khatri', 'Dharan', '+977-9841000006'),
+('Amit Thapa', 'Lamjung', '+977-9841000007'),
+('Sarita Rai', 'Bhojpur', '+977-9841000008'),
+('Suresh KC', 'Sindhuli', '+977-9841000009');
+
+INSERT INTO suppliers (s_name, s_email, s_number, s_address) VALUES
+('Himalayan Pharmaceuticals', 'himalayanpharma@gmail.com', '+977-1-7777777', 'Kathmandu'),
+('Sunrise Pharmaceuticals', 'sunrisepharma@gmail.com', '+977-1-8888888', 'Lalitpur'),
+('Sagarmatha Pharmaceuticals', 'sagarmathapharma@gmail.com', '+977-1-9999999', 'Bhaktapur'),
+('Mars Pharmacy', 'marspharmacy@gmail.com', '+977-1-1111111', 'Kathmandu');
+
+INSERT INTO medicine (med_name, med_pack, generic_name, s_id) VALUES
+('Cefixime', '10 x 1', 'Cefixime', 1),
+('Levocetirizine', '10 x 1', 'Levocetirizine', 2),
+('Esomeprazole', '10 x 1', 'Esomeprazole', 3),
+('Pantoprazole', '10 x 1', 'Pantoprazole', 4),
+('Omeprazole', '10 x 1', 'Omeprazole', 2);
+
+INSERT INTO medicine_stock (med_name, exp_date, qty, mrp, rate) VALUES
+('Cefixime', '2024-05-31', 150, 30.00, 25.00),
+('Levocetirizine', '2023-11-30', 100, 20.00, 15.00),
+('Esomeprazole', '2024-06-30', 200, 40.00, 35.00),
+('Pantoprazole', '2024-02-28', 250, 35.00, 30.00),
+('Omeprazole', '2023-10-31', 120, 25.00, 20.00),
+('Ciprofloxacin', '2023-09-30', 80, 25.00, 20.00),
+('Amikacin', '2023-12-31', 50, 30.00, 25.00),
+('Azithromycin', '2024-01-31', 100, 40.00, 35.00);
+
+
+
+/////////////////////////////////////////////////////////
+
+INSERT INTO medicine_stock (med_name, exp_date, qty, mrp, rate)
+VALUES ('Cefixime', '2024-05-31', 50, 30.00, 25.00)
+ON DUPLICATE KEY UPDATE qty = qty + 50;

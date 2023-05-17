@@ -1,0 +1,69 @@
+`admin` (`username`, `password`)
+`customer` (`c_id`, `c_name`, `c_address`, `c_number`)
+`invoice` (`i_id`, `c_id`, `invoice_date`, `total`, `discount`)
+`medicine` (`med_id`, `med_name`, `med_pack`, `generic_name`, `s_id`)
+`medicine_stock` (`med_id`, `med_name`, `exp_date`, `qty`, `mrp`, `rate`)
+`purchases` (`p_id`, `s_id`, `invoice_number`, `purchase_date`, `total`)
+`suppliers` (`s_id`, `s_name`, `s_email`, `s_number`, `s_address`)
+
+
+
+
+CREATE TABLE admin (
+  username VARCHAR(50) PRIMARY KEY,
+  password VARCHAR(50)
+);
+
+CREATE TABLE customer (
+  c_id INT PRIMARY KEY AUTO_INCREMENT,
+  c_name VARCHAR(50),
+  c_address VARCHAR(100),
+  c_number VARCHAR(20) UNIQUE
+);
+
+CREATE TABLE suppliers (
+  s_id INT PRIMARY KEY AUTO_INCREMENT,
+  s_name VARCHAR(50),
+  s_email VARCHAR(50) UNIQUE,
+  s_number VARCHAR(20) UNIQUE,
+  s_address VARCHAR(100)
+);
+
+
+CREATE TABLE invoice (
+  i_id INT PRIMARY KEY AUTO_INCREMENT,
+  c_id INT,
+  invoice_date DATE DEFAULT CURRENT_DATE,
+  total DECIMAL(10,2),
+  discount DECIMAL(5,2),
+  FOREIGN KEY (c_id) REFERENCES customer(c_id)
+);
+
+CREATE TABLE medicine (
+  med_id INT PRIMARY KEY AUTO_INCREMENT,
+  med_name VARCHAR(50) UNIQUE,
+  med_pack VARCHAR(20),
+  generic_name VARCHAR(50),
+  s_id INT,
+  FOREIGN KEY (s_id) REFERENCES suppliers(s_id)
+);
+
+CREATE TABLE medicine_stock (
+  stock_id INT PRIMARY KEY AUTO_INCREMENT,
+  med_name VARCHAR(50),
+  exp_date DATE,
+  qty INT,
+  mrp DECIMAL(10,2),
+  rate DECIMAL(10,2),
+  FOREIGN KEY (med_name) REFERENCES medicine(med_name)
+);
+
+CREATE TABLE purchases (
+  p_id INT PRIMARY KEY AUTO_INCREMENT,
+  s_id INT,
+  invoice_number INT,
+  purchase_date DATE DEFAULT CURRENT_DATE,
+  total DECIMAL(10,2),
+  FOREIGN KEY (s_id) REFERENCES suppliers(s_id)
+);
+
