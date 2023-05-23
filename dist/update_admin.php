@@ -13,6 +13,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fullname = $_POST['fullname'];
     $password = $_POST['password'];
 
+    // Validate email format
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $_SESSION['error'] = "Invalid email format";
+        header("location: edit-admin.php");
+        exit();
+    }
+
+    // Check password length
+    if (strlen($password) < 6) {
+        $_SESSION['error'] = "Password should be at least 6 characters long";
+        header("location: edit-admin.php");
+        exit();
+    }
+
     // Retrieve the existing admin details
     $stmt = $conn->prepare("SELECT * FROM admin WHERE username = ?");
     $stmt->bind_param("s", $username);

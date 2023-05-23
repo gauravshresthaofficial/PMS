@@ -1,11 +1,10 @@
 <?php
 session_start();
-if(!isset($_SESSION['name'])){
+if (!isset($_SESSION['name'])) {
     header("location: index.php");
-        exit();
-}
-else{
-    $name=$_SESSION['name'];
+    exit();
+} else {
+    $name = $_SESSION['name'];
 }
 ?>
 <!DOCTYPE html>
@@ -32,21 +31,23 @@ else{
 
 
         <!-- Header -->
-        <div class="col-span-10 max-h-screen bg-slate-200 flex flex-col">
+        <div class="col-span-10 max-h-screen bg-slate-200 flex flex-col relative">
             <!-- <div class="bg-slate-200 flex flex-col h-screen"> -->
             <?php include "header.php";
             head("Purchases");
             ?>
 
             <!-- body -->
-            <div id="notice" class="w-full">
+            <div id="error-message" class="absolute z-10 rounded-md right-1/2 top-3/4 bg-[#9c4150] text-white translate-y-1/2 translate-x-1/2 px-6 w-2/3 text-center py-2">
+            </div>
+            <div id="success-message" class="absolute z-10 rounded-md right-1/2 top-3/4 bg-teal-500 text-white translate-y-1/2 translate-x-1/2 px-6 w-2/3 text-center py-2"> nepal
             </div>
             <!-- <div id="table-data"></div> -->
 
             <div class="flex h-12 w-full flex-row gap-4 justify-end items-center px-6 py-4">
-                <button type="submit" id="manage-invoice" class="toggle-id bg-pms-green-light text-white py-1 px-3 rounded-md border border-pms-green hover:scale-105 delay-75">Manage Purchases</button>
-                <button type="submit" id="sap" class="border border-pms-purple py-1 px-3 bg-pms-white rounded-md hover:scale-105 delay-75">Save & Print</button>
-                <button type="button" id="calculate" class="border border-pms-purple py-1 px-3 bg-pms-white rounded-md hover:scale-105 delay-75">Save</button>
+                <button type="submit" id="manage-invoice" class="toggle-id bg-[#2DD4BF] text-white py-1 px-3 rounded-md border border-pms-green hover:scale-105 delay-75">Manage Purchases</button>
+                <button type="submit" id="sap" class="border border-pms-purple py-1 px-3 bg-[#F1F5F9] rounded-md hover:scale-105 delay-75">Save & Print</button>
+                <button type="button" id="calculate" class="border border-pms-purple py-1 px-3 bg-[#F1F5F9] rounded-md hover:scale-105 delay-75">Save</button>
             </div>
 
 

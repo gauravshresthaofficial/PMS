@@ -121,7 +121,7 @@ if (isset($_SESSION['error'])) {
                                 </div>
 
                                 <div class="mt-2 text-end">
-                                    <button type="submit" id="update-admin" class="bg-pms-green-light text-white py-1 px-6 rounded-md border border-pms-green hover:scale-105 delay-75">
+                                    <button type="submit" id="update-admin" class="bg-[#2DD4BF] text-white py-1 px-6 rounded-md border border-pms-green hover:scale-105 delay-75">
                                         Update
                                     </button>
                                 </div>

@@ -1,35 +1,30 @@
-<h2 class="border-2 border-l-0 border-r-0 border-t-0 border-pms-green-light pb-2 ps-2 text-lg font-bold">
+<!-- <h2 class="border-2 border-l-0 border-r-0 border-t-0 border-pms-green-light pb-2 ps-2 text-lg font-bold">
     Add New Purchase
-</h2>
+</h2> -->
 
-<!-- <div class="flex flex-col grow bg-pms-white z-10 rounded-md justify-items-stretch p-4"> -->
-<div class="flex flex-none flex-row gap-8 px-2">
-    <div class="basis-4/12">
-        <input type="text" id="s_id" value="" class="hidden">
-        <label for="supplier" class="block ps-2 font-semibold text-pms-purple">Supplier:</label>
-        <input type="text" name="s_name" id="s_name" class="w-full rounded-md border border-gray-200 py-1 ps-2"
-            autocomplete="off" placeholder="Name" />
-        <div id="s-name-results" class="relative z-50"></div>
+<div class="flex flex-none justify-between pb-2 mb-2 border-2 border-l-0 border-r-0 border-t-0 border-pms-green-light">
+    <h2 class="ps-2 text-lg font-bold mt-2">
+        Add New Purchase
+    </h2>
+    <div class="items-start">
+        <div class="flex items-baseline">
+            <label for="purchase_date" class="w-fit px-2 font-semibold text-pms-purple">Purchase Date:</label>
+            <div class="flex flex-col">
+                <input type="text" name="purchase_date" id="purchase_date"
+                    class="w-28 border-b-2 outline-0 pe-2 text-end" value="2023-05-xx" />
+            </div>
+        </div>
+        <div class="relative">
+            <div id="date-error" class="text-red-500 text-xs absolute top-0 right-1 "></div>
+        </div>
     </div>
-    <div class="basis-2/12">
-        <label for="Address" class="block ps-2 font-semibold text-pms-purple">Invoice No:</label>
-        <input type="text" name="invoice_number" id="invoice_number"
-            class="w-full rounded-md border border-gray-200 py-1 ps-2" placeholder="for eg 1001" />
-    </div>
-    <div class="basis-3/12">
-        <label for="purchase_date" class="block ps-2 font-semibold text-pms-purple">Purchase Date:</label>
-        <input type="text" name="purchase_date" id="purchase_date"
-            class="w-full rounded-md border border-gray-200 py-1 ps-2" placeholder="2023-XX-XX" />
-    </div>
-    <div class="basis-2/12"></div>
+    <!-- <div class="basis-2/12"></div> -->
 </div>
 
-<div>
+<!-- <div>
     <hr class="border-05 mt-4 border-slate-300" />
-</div>
+</div> -->
 
-<!-- //////////Medicine list///////////// -->
-<!-- //////////////////////////////////// -->
 <div class="med_details flex h-full flex-row">
     <div class="med_list relative flex h-0 max-h-full min-h-full flex-col gap-4 px-2 overflow-y-auto">
         <div class="label sticky top-0 flex flex-row gap-6 bg-white pb-2 shadow-sm">
@@ -56,51 +51,54 @@
         </div>
         <div class="med-row flex flex-row gap-6">
             <div class="basis-4/12">
-                <input type="text" name="med_name[]" class="med_name w-full rounded-md border border-gray-200 py-1 ps-2"
+                <input type="text" name="med_name[]" class="med_name w-full rounded-md border border-gray-400 py-1 ps-2"
                     placeholder="Name" autocomplete="off" />
                 <div class="med-results relative"></div>
+                <div id="med_name-error-0" class="med_name-error med-error relative text-red-500 text-xs"></div>
             </div>
 
             <div class="basis-2/12">
                 <input type="date" name="exp_date[]"
                     class="exp_date w-full rounded-md border text-gray-400 border-gray-200 py-1 px-2"
                     autocomplete="off" />
+                <div id="exp_date-error-0" class="exp_date-error med-error relative text-red-500 text-xs"></div>
             </div>
             <div class="basis-1/12">
                 <input type="text" name="med_qty[]" class="med_qty w-full rounded-md border border-gray-200 py-1 ps-2"
                     placeholder="100" />
-                <div class="med_qty-error relative text-red-500"></div>
+                <div id="med_qty-error-0" class="med_qty-error med-error relative text-red-500 text-xs"></div>
             </div>
 
             <div class="basis-1/12">
                 <input type="text" name="med_rate[]" class="med_rate w-full rounded-md border border-gray-200 py-1 ps-2"
                     placeholder="10" />
+                <div id="med_rate-error-0" class="med_rate-error med-error relative text-red-500 text-xs"></div>
             </div>
             <div class="basis-1/12">
                 <input type="text" name="med_mrp[]" class="med_mrp w-full rounded-md border border-gray-200 py-1 ps-2"
                     placeholder="10" autocomplete="off" />
+                <div id="med_mrp-error-0" class="med_mrp-error med-error relative text-red-500 text-xs"></div>
             </div>
             <div class="basis-2/12">
                 <input type="text" name="med_total[]"
                     class="med_total w-full rounded-md border border-gray-200 py-1 ps-2" placeholder="Total" disabled />
             </div>
             <div class="remove-btn basis-1/12 text-end">
-                <button id="remove_med"
-                    class="w-full rounded-md border border-pms-error bg-pms-error px-3 py-1 text-white delay-75 hover:scale-105">
+                <button
+                    class="w-full rounded-md border border-pms-error bg-pms-error px-3 py-1 text-white delay-75 hover:scale-105 remove_med">
                     Clear
                 </button>
             </div>
         </div>
 
+
         <div class="add-btn text-end">
             <input type="submit" value="Add" id="add_med" data-num="1"
-                class="rounded-md border border-pms-green bg-pms-green-light px-3 py-1 text-white delay-75 hover:scale-105" />
+                class="rounded-md border border-pms-green bg-[#2DD4BF] px-3 py-1 text-white delay-75 hover:scale-105" />
         </div>
     </div>
 </div>
 
-
-<!-- Total calculation -->
 <div class="flex flex-col gap-4 border border-b-0 border-l-0 border-r-0 border-slate-300 pt-4">
     <div class="flex flex-row justify-end gap-6 text-end">
         <div>
@@ -109,28 +107,9 @@
                 class="w-40 rounded-md border-b-2 border-l-0 border-r-0 border-t-0 border-gray-200 px-4 py-1 ps-2 text-end text-lg font-bold"
                 placeholder="0" disabled />
         </div>
-        <!-- <div>
-            <label class="font-semibold text-pms-purple">Discount (%) :</label>
-            <input type="text" id="discount"
-                class="w-24 rounded-md border-b-2 border-l-0 border-r-0 border-t-0 border-gray-200 px-4 py-1 ps-2 text-end"
-                placeholder="0" />
-        </div>
-        <div>
-            <label class="text-md font-bold text-pms-purple">Net Total :</label>
-            <input type="text" id="net_total"
-                class="w-24 rounded-md border-b-2 border-l-0 border-r-0 border-t-0 border-gray-200 px-4 py-1 ps-2 text-end text-md font-bold"
-                placeholder="0" />
-        </div> -->
     </div>
-    <!-- <div class=" text-end">
-        <button type="button" id="calculate"
-            class="rounded-md border border-pms-green bg-pms-green-light px-5 py-1 text-white delay-75 hover:scale-105">Save</button>
-    </div> -->
-    <!-- <div class="text-end">
-        <input type="submit" value="Save" id="save"
-            class="rounded-md border border-pms-green bg-pms-green-light px-4 py-1 text-white delay-75 hover:scale-105" />
-    </div> -->
 </div>
+
 <!-- </div> -->
 
 <!-- Footer -->

@@ -47,7 +47,7 @@ if (!isset($_SESSION['name'])) {
             // <!-- body -->
             // Check for error message in session
             if (isset($_SESSION['success'])) : ?>
-                <div id="success-message" class="absolute rounded-md right-1/2 top-3/4 bg-teal-500 shadow-md text-white translate-y-1/2 translate-x-1/2 px-6 w-2/3 text-center py-2" data-success-message="<?php echo $_SESSION['success']; ?>">
+                <div id="success-message" class="absolute rounded-md right-1/2 top-3/4 bg-white bg-opacity-90 text-[#2DD4BF] translate-y-1/2 translate-x-1/2 px-6 w-2/3 text-center py-2 shadow-lg" data-success-message="<?php echo $_SESSION['success']; ?>">
                     <?php echo $_SESSION['success']; ?>
                 </div>
                 <?php unset($_SESSION['success']); ?>

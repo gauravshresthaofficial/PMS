@@ -22,7 +22,7 @@ if (isset($_POST['search'])) {
 
     if($for == "details")
     {
-        if($of == "supplier")
+        if($of == "suppliers")
         {
             $attr = "s_name";
         }
@@ -43,6 +43,9 @@ function select_data($table, $attr, $n){
     if($table == "medicine")
     {
         $table = "$table FULL JOIN medicine ON medicine.s_name = {$table}.s_name";
+    }
+    else{
+        $attr = "active = 1 AND s_name";
     }
     $stmt = $conn->prepare("SELECT * FROM $table  WHERE $attr LIKE ? LIMIT $n");
     $stmt->bind_param("s", $searchValue);
